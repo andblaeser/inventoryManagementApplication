@@ -117,60 +117,57 @@
 	</div>
 </div>
 
-<script>
-
-    $(document).ready(function () {
-        activateLink('list');
-    });
-
-    $('.btn-danger').click(function () {
-        var itemId=$(this).attr("data-id");
-        $.ajax({
-            url: '/deleteItem/'+itemId,
-            type: 'DELETE',
-            success: function(result) {
-                alert('Item with id '+itemId+' deleted successfully');
-                $(this).parent().parent().delete();
-            }
-        });
-    });
-
-    $('.btn-success').click(function () {
-        var itemId=$(this).attr("data-id");
-        $('#itemId').val(itemId);
-    });
-
-    $('#update').click(function () {
-        var itemId = $('#itemId').val();
-        var count = $('#count').val();
-        var operationType = $('#operation').val();
-        var api='';
-        if(operationType == 'add'){
-            api='/addStock';
-        }else{
-            api = '/deleteStock';
-        }
-        $.ajax({
-            url: api,
-            data: {
-                itemId : itemId,
-                count : count
-            },
-            type: 'PUT',
-            success: function(data) {
-                alert('Item with id '+itemId+' updated successfully');
-            },
-            error : function (data) {
-                alert('Error updating the inventory');
-            }
-        });
-    });
-
-</script>
-
 <script type="text/javascript"
 	th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript"
 	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+<script>
+	$('.btn-danger').click(function() {
+		var id = $(this).attr("data-id");
+		$.ajax({
+			url : '/deleteItem/' + id,
+			type : 'DELETE',
+			success : function(result) {
+				alert('Item with id ' + id + ' deleted successfully');
+				window.location.reload();
+			}
+		});
+	});
+
+	$('.btn-success').click(function() {
+		var id = $(this).attr("data-id");
+		$('#id').val(id);
+	});
+
+	$('#update').click(function() {
+		var id = $('#id').val();
+		var count = $('#count').val();
+		var operationType = $('#operation').val();
+		var api = '';
+		if (operationType == 'add') {
+			api = '/addStock';
+		} else {
+			api = '/deleteStock';
+		}
+		$.ajax({
+			url : api,
+			data : {
+				id : id,
+				count : count
+			},
+			type : 'PUT',
+			success : function(data) {
+				alert('Item with id ' + id + ' updated successfully');
+				window.location.reload();
+			},
+			error : function(data) {
+				alert('Error updating the inventory');
+			}
+		});
+	});
+</script>
+
+
 </body>
 </html>
