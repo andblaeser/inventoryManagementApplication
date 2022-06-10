@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" href="./main.css" />
+
+<title>Item List</title>
+</head>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#" th:href="@{/}">Inventory
+				Management Application</a>
+		</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li><a class="nav navbar-nav" th:href="@{/add}">Add Item</a></li>
+				<li><a class="nav navbar-nav" th:href="@{/list}">Inventory</a></li>
+				<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+	<h2>Inventory</h2>
+	<table class="table table-striped table-bordered ">
+		<thead class="thead-dark">
+			<tr>
+				<th class="text-center">Item Id</th>
+				<th class="text-center">Item Name</th>
+				<th class="text-center">Description</th>
+				<th class="text-center">Updated On</th>
+				<th class="text-center">Stock</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tr th:if="${#lists.isEmpty(inventory)}">
+			<td class="text-center" colspan="7">No Records found. Add
+				some...!</td>
+		</tr>
+		<tr th:each="item : ${inventory}">
+			<td class="align-middle" th:text="${item.id}"></td>
+			<td class="align-middle" th:text="${item.getItem().getItemName()}"></td>
+			<td class="align-middle" th:text="${item.getItem().getDescription()}"></td>
+			<td class="align-middle" th:text="${item.updatedOn}"></td>
+			<td class="align-middle" th:text="${item.count}"></td>
+			<td class="text-center"><a type="button" class="btn btn-danger"
+				th:attr="data-id=${item.id}">Delete</a></td>
+			<td>
+				<button class="btn btn-success" data-toggle="modal"
+					data-target="#inventoryUpdateModal" th:attr="data-id=${item.id}">Update</button>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="modal" id="inventoryUpdateModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Update Inventory</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group row">
+						<label for="id" class="col-2 col-form-label">Id</label>
+						<div class="col-10">
+							<input id="id" name="id" type="text" class="form-control"
+								disabled="disabled">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-2"></label>
+						<div class="col-10">
+							<select id="operation" name="operation" class="custom-select"
+								required="required">
+								<option value="add">Add</option>
+								<option value="remove">Remove</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-2"></label>
+						<div class="col-10">
+							<input id="count" type="number" name="count" placeholder="Count"
+								class="form-control">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="offset-4 col-8">
+							<button name="submit" type="submit" class="btn btn-primary"
+								id="update">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        activateLink('list');
+    });
+
+    $('.btn-danger').click(function () {
+        var itemId=$(this).attr("data-id");
+        $.ajax({
+            url: '/deleteItem/'+itemId,
+            type: 'DELETE',
+            success: function(result) {
+                alert('Item with id '+itemId+' deleted successfully');
+                $(this).parent().parent().delete();
+            }
+        });
+    });
+
+    $('.btn-success').click(function () {
+        var itemId=$(this).attr("data-id");
+        $('#itemId').val(itemId);
+    });
+
+    $('#update').click(function () {
+        var itemId = $('#itemId').val();
+        var count = $('#count').val();
+        var operationType = $('#operation').val();
+        var api='';
+        if(operationType == 'add'){
+            api='/addStock';
+        }else{
+            api = '/deleteStock';
+        }
+        $.ajax({
+            url: api,
+            data: {
+                itemId : itemId,
+                count : count
+            },
+            type: 'PUT',
+            success: function(data) {
+                alert('Item with id '+itemId+' updated successfully');
+            },
+            error : function (data) {
+                alert('Error updating the inventory');
+            }
+        });
+    });
+
+</script>
+
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>
