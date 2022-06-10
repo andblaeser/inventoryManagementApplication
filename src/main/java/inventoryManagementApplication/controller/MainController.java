@@ -20,4 +20,9 @@ public class MainController {
 	public String userIndex() {
 		return "user/index";
 	}
+
+	@GetMapping("/terms")
+	public String terms() {
+		return "terms";
+	}
 }
