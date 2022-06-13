@@ -46,6 +46,7 @@ public class InventoryServiceImpl implements InventoryService {
 		Inventory inventory = inventoryOptional.isPresent() ? inventoryOptional.get() : null;
 		if (inventory != null) {
 			inventory.setCount(inventory.getCount() + count);
+			inventory.setUpdatedOn(new Date());
 		} else {
 			inventory = new Inventory();
 			inventory.setId(id);
@@ -60,6 +61,7 @@ public class InventoryServiceImpl implements InventoryService {
 		Inventory inventory = inventoryOptional.isPresent() ? inventoryOptional.get() : null;
 		if (inventory != null && inventory.getCount() > count) {
 			inventory.setCount(inventory.getCount() - count);
+			inventory.setUpdatedOn(new Date());
 			return inventoryRepository.save(inventory);
 		} else {
 			throw new InsufficientStockException(inventory.getItem().getItemName() + " does not have enough stock!");
