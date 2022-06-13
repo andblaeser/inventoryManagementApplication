@@ -59,12 +59,17 @@ public class InventoryServiceImpl implements InventoryService {
 	public Inventory deleteFromInventory(Long id, int count) throws InsufficientStockException {
 		Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
 		Inventory inventory = inventoryOptional.isPresent() ? inventoryOptional.get() : null;
-		if (inventory != null && inventory.getCount() > count) {
+		if (inventory != null && inventory.getCount() >= count) {
 			inventory.setCount(inventory.getCount() - count);
 			inventory.setUpdatedOn(new Date());
 			return inventoryRepository.save(inventory);
 		} else {
 			throw new InsufficientStockException(inventory.getItem().getItemName() + " does not have enough stock!");
 		}
+	}
+
+	@Override
+	public List<Inventory> getOutOfStock() {
+		return inventoryRepository.findByCountEquals(0);
 	}
 }

@@ -19,4 +19,6 @@ public interface InventoryService {
 	public Inventory addToInventory(Long id, int count);
 
 	public Inventory deleteFromInventory(Long id, int count) throws InsufficientStockException;
+
+	public List<Inventory> getOutOfStock();
 }
