@@ -102,6 +102,7 @@ public class InventoryController {
 	@ResponseBody
 	String deleteStock(@RequestParam("id") Long id, @RequestParam("count") Integer count) throws NotFoundException {
 		String message;
+		@SuppressWarnings("unused")
 		boolean success = false;
 		if (itemService.getItem(id) != null) {
 			try {
