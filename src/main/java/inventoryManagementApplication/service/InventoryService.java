@@ -7,6 +7,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import inventoryManagementApplication.exceptions.InsufficientStockException;
 import inventoryManagementApplication.model.Inventory;
 
+// Inventory service interface
 public interface InventoryService {
 	public Inventory getInventory(Long id) throws NotFoundException;
 

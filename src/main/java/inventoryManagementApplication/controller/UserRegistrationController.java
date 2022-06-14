@@ -15,6 +15,7 @@ import inventoryManagementApplication.model.User;
 import inventoryManagementApplication.service.UserRegistrationDto;
 import inventoryManagementApplication.service.UserService;
 
+// User registration controller class
 @Controller
 @RequestMapping("/registration")
 public class UserRegistrationController {
@@ -26,11 +27,13 @@ public class UserRegistrationController {
 		return new UserRegistrationDto();
 	}
 
+	// Get registration form
 	@GetMapping
 	public String showRegistrationForm(Model model) {
 		return "registration";
 	}
 
+	// Register a new user
 	@PostMapping
 	public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationDto userDto,
 			BindingResult result) {

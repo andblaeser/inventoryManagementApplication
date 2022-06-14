@@ -12,26 +12,31 @@ import inventoryManagementApplication.exceptions.InsufficientStockException;
 import inventoryManagementApplication.model.Inventory;
 import inventoryManagementApplication.repository.InventoryRepository;
 
+// Inventory service implementation
 @Service
 public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	InventoryRepository inventoryRepository;
 
+	// Get inventory entity by id
 	@Override
 	public Inventory getInventory(Long id) throws ChangeSetPersister.NotFoundException {
 		return inventoryRepository.getById(id);
 	}
 
+	// Create new inventory
 	@Override
 	public Inventory createInventory(Inventory inventory) {
 		return inventoryRepository.save(inventory);
 	}
 
+	// Get list of each inventory entity
 	@Override
 	public List<Inventory> getInventorys() {
 		return inventoryRepository.findAll();
 	}
 
+	// Update inventory entity by id
 	@Override
 	public Inventory updateInventory(Long id, Inventory request) throws ChangeSetPersister.NotFoundException {
 		Inventory fromDb = getInventory(id);
@@ -40,6 +45,7 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventoryRepository.save(fromDb);
 	}
 
+	// Add stock to inventory by id and count of stock
 	@Override
 	public Inventory addToInventory(Long id, int count) {
 		Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
@@ -55,6 +61,7 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventoryRepository.save(inventory);
 	}
 
+	// Reduce stock of inventory by id and count of stock
 	@Override
 	public Inventory deleteFromInventory(Long id, int count) throws InsufficientStockException {
 		Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
@@ -68,6 +75,7 @@ public class InventoryServiceImpl implements InventoryService {
 		}
 	}
 
+	// Get list of inventory entities with stock equal to 0
 	@Override
 	public List<Inventory> getOutOfStock() {
 		return inventoryRepository.findByCountEquals(0);

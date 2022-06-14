@@ -25,6 +25,7 @@ import inventoryManagementApplication.model.Item;
 import inventoryManagementApplication.service.InventoryService;
 import inventoryManagementApplication.service.ItemService;
 
+// Inventory controller class
 @Controller
 public class InventoryController {
 	@Autowired
@@ -33,12 +34,14 @@ public class InventoryController {
 	@Autowired
 	InventoryService inventoryService;
 
+	// Get add item page
 	@GetMapping("/add")
 	public String addItemPage(Model model) {
 		model.addAttribute("item", new Item());
 		return "add";
 	}
 
+	// Add item to inventory
 	@PostMapping("/add")
 	String addItem(@ModelAttribute Item item, Model model) throws NotFoundException {
 		String message;
@@ -63,6 +66,7 @@ public class InventoryController {
 		return "add";
 	}
 
+	// Delete item from inventory
 	@DeleteMapping("/deleteItem/{id}")
 	String deleteItem(@PathVariable("id") Long id) throws NotFoundException {
 		if (itemService.getItem(id) != null) {
@@ -73,6 +77,7 @@ public class InventoryController {
 		}
 	}
 
+	// Get inventory page
 	@GetMapping("/list")
 	public String showAll(Model model) {
 		List<Inventory> inventory = inventoryService.getInventorys();
@@ -80,12 +85,14 @@ public class InventoryController {
 		return "list";
 	}
 
+	// Get individual item page by id
 	@GetMapping("/view/{id}")
 	String viewItem(@PathVariable("id") Long id, Model model) throws NotFoundException {
 		model.addAttribute("item", itemService.getItem(id));
 		return "view";
 	}
 
+	// Add stock to an item in inventory
 	@PutMapping("/addStock")
 	@ResponseBody
 	boolean addStock(@RequestParam("id") Long id, @RequestParam("count") Integer count) throws NotFoundException {
@@ -98,6 +105,7 @@ public class InventoryController {
 		return success;
 	}
 
+	// Reduce stock of an item in inventory
 	@PutMapping("/deleteStock")
 	@ResponseBody
 	String deleteStock(@RequestParam("id") Long id, @RequestParam("count") Integer count) throws NotFoundException {

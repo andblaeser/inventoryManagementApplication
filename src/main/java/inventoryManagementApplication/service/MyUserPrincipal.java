@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import inventoryManagementApplication.model.Role;
 import inventoryManagementApplication.model.User;
 
+// Custom user details implementation
 public class MyUserPrincipal implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private User user;
@@ -18,6 +19,7 @@ public class MyUserPrincipal implements UserDetails {
 	private Boolean accountNonLocked;
 	private Boolean credentialsNonExpired;
 
+	// Construct user details with additional user entity fields
 	public MyUserPrincipal(final User _user) {
 		this.user = _user;
 		this.enabled = true;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import inventoryManagementApplication.model.Item;
 
+// Item service interface
 public interface ItemService {
 	public Item getItem(Long id) throws NotFoundException;
 

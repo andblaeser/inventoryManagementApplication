@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import inventoryManagementApplication.model.Inventory;
 
+// Inventory repository class
 @RepositoryRestResource(collectionResourceRel = "inventory", path = "inventory")
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 	List<Inventory> findAll();

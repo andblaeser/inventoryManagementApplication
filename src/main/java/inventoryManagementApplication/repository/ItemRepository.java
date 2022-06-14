@@ -6,6 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import inventoryManagementApplication.model.Item;
 
+// Item repository class
 @RepositoryRestResource(collectionResourceRel = "item", path = "item")
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findAll();

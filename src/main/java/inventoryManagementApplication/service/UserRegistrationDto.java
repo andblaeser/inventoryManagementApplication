@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
+// User registration dto class with field matching implemented
 @FieldMatch.List({
 		@FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match"),
 		@FieldMatch(first = "email", second = "confirmEmail", message = "The email fields must match") })

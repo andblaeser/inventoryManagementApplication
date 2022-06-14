@@ -11,6 +11,7 @@ import inventoryManagementApplication.model.Role;
 import inventoryManagementApplication.model.User;
 import inventoryManagementApplication.repository.UserRepository;
 
+// User service implementation
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -19,10 +20,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	// Get user entity by email
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
 
+	// Save user registration entity to database
 	public User save(UserRegistrationDto registration) {
 		User user = new User();
 		user.setFirstName(registration.getFirstName());
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	// Load custom user details entity to session
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
