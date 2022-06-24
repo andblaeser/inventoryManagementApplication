@@ -11,9 +11,9 @@
 <link rel="stylesheet" type="text/css" href="./main.css" />
 
 <style>
-	#update, label, select {
-		margin-left: 10px;
-	}
+#update, label, select {
+	margin-left: 10px;
+}
 </style>
 
 <title>Item List</title>
@@ -64,7 +64,8 @@
 				some...!</td>
 		</tr>
 		<tr th:each="item : ${inventory}">
-			<td class="align-middle" th:text="${item.id}"></td>
+			<td class="align-middle"><a
+				th:href="@{/view/{id}(id=${item.id})}" th:text="${item.id}"></a></td>
 			<td class="align-middle" th:text="${item.getItem().getItemName()}"></td>
 			<td class="align-middle" th:text="${item.getItem().getDescription()}"></td>
 			<td class="align-middle" th:text="${item.updatedOn}"></td>
